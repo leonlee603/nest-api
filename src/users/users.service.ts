@@ -4,7 +4,10 @@ import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UsersService {
+  // Add user repository to the service
+
   create(createUserDto: CreateUserDto) {
+    console.log(createUserDto);
     return 'This action adds a new user';
   }
 
@@ -17,6 +20,7 @@ export class UsersService {
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
+    console.log(updateUserDto);
     return `This action updates a #${id} user`;
   }
 
