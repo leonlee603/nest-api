@@ -8,16 +8,16 @@ import {
 
 @Entity()
 export class User {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-  @Column({ nullable: true })
+  @Column({ type: 'varchar', length: 255, nullable: true })
   name?: string;
 
-  @Column({ unique: true, nullable: false })
+  @Column({ type: 'varchar', length: 255, unique: true, nullable: false })
   email: string;
 
-  @Column({ select: false })
+  @Column({ type: 'varchar', length: 255, select: false, nullable: false })
   password: string;
 
   @CreateDateColumn()

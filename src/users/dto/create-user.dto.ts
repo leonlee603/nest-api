@@ -17,6 +17,7 @@ export class CreateUserDto {
     required: false,
   })
   @IsString()
+  @MaxLength(255)
   @IsOptional()
   name?: string;
 
@@ -26,6 +27,7 @@ export class CreateUserDto {
     example: 'john.doe@example.com',
   })
   @IsEmail()
+  @MaxLength(255)
   @IsNotEmpty()
   email: string;
 
