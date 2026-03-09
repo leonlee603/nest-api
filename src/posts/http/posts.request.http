@@ -1,0 +1,38 @@
+# Create a new post
+POST http://localhost:3000/posts
+Content-Type: application/json
+
+{
+  "postType": "post",
+  "status": "draft",
+  "title": "My First Post",
+  "slug": "my-first-post",
+  "content": "This is the content of my first post",
+  "schema": "{\r\n  \"@context\": \"https:\/\/schema.org\",\r\n  \"@type\": \"BlogPosting\"\r\n}",
+  "featuredImageUrl": "https://example.com/image.jpg",
+  "tags": ["tag1", "tag2", "tag3"],
+  "metaOptions": [{ "key": "key1", "value": "value1" }, { "key": "key2", "value": true }]
+}
+
+## Get all posts
+GET http://localhost:3000/posts
+
+## Get a post by id
+GET http://localhost:3000/posts/1
+
+## Update a post by id
+PATCH http://localhost:3000/posts/1
+Content-Type: application/json
+
+{
+  "title": "My First Post",
+  "slug": "my-first-post",
+  "content": "This is the content of my first post",
+  "schema": "{\r\n  \"@context\": \"https:\/\/schema.org\",\r\n  \"@type\": \"BlogPosting\"\r\n}",
+  "featuredImageUrl": "https://example.com/image.jpg",
+  "tags": ["tag1", "tag2", "tag3"],
+  "metaOptions": [{ "key": "key1", "value": "value1" }, { "key": "key2", "value": true }]
+}
+
+## Delete a post by id
+DELETE http://localhost:3000/posts/1  
