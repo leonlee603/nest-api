@@ -15,7 +15,7 @@ import {
 import { PostType } from '../enums/postType.enum';
 import { PostStatus } from '../enums/postStatus.enum';
 import { CreatePostMetaOptionsDto } from './create-post-meta-options.dto';
-import { Type } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 
 export class CreatePostDto {
   // Post type (post, page, story, series)
@@ -59,7 +59,8 @@ export class CreatePostDto {
     message:
       'Slug must be in lowercase and contain only letters and numbers. For example: my-first-post',
   })
-  // @Transform(({ value }: { value: string }) => value.toLowerCase())
+  @Transform(({ value }: { value: string }) => value.toLowerCase())
+  @MaxLength(255)
   @IsNotEmpty()
   slug: string;
 
@@ -91,6 +92,7 @@ export class CreatePostDto {
     required: false,
   })
   @IsUrl()
+  @MaxLength(1024)
   @IsOptional()
   featuredImageUrl?: string;
 

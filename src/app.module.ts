@@ -8,15 +8,19 @@ import { PostsModule } from './posts/posts.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'postgres',
-      password: 'root',
-      database: 'nest-api',
-      autoLoadEntities: true,
-      synchronize: true,
+    TypeOrmModule.forRootAsync({
+      imports: [],
+      inject: [],
+      useFactory: () => ({
+        type: 'postgres',
+        host: 'localhost',
+        port: 5432,
+        username: 'postgres',
+        password: 'root',
+        database: 'nest-api',
+        autoLoadEntities: true,
+        synchronize: true,
+      }),
     }),
     UsersModule,
     PostsModule,

@@ -1,46 +1,59 @@
 import {
   Entity,
   PrimaryGeneratedColumn,
-  // Column,
-  // CreateDateColumn,
-  // UpdateDateColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
 } from 'typeorm';
+import { PostType } from '../enums/postType.enum';
+import { PostStatus } from '../enums/postStatus.enum';
+import { CreatePostMetaOptionsDto } from '../dto/create-post-meta-options.dto';
 
 @Entity()
 export class Post {
   @PrimaryGeneratedColumn()
   id: number;
 
-  // @Column()
-  // postType: string;
+  @Column({
+    type: 'enum',
+    enum: PostType,
+    nullable: false,
+    default: PostType.POST,
+  })
+  postType: PostType;
 
-  // @Column()
-  // status: string;
+  @Column({
+    type: 'enum',
+    enum: PostStatus,
+    nullable: false,
+    default: PostStatus.DRAFT,
+  })
+  status: PostStatus;
 
-  // @Column({ nullable: false })
-  // title: string;
+  @Column({ type: 'varchar', length: 255, nullable: false })
+  title: string;
 
-  // @Column({ nullable: false })
-  // slug: string;
+  @Column({ type: 'varchar', length: 255, unique: true, nullable: false })
+  slug: string;
 
-  // @Column({ nullable: true })
-  // content?: string;
+  @Column({ type: 'text', nullable: true })
+  content?: string;
 
-  // @Column()
-  // schema?: string;
+  @Column({ type: 'text', nullable: true })
+  schema?: string;
 
-  // @Column()
-  // featuredImageUrl?: string;
+  @Column({ type: 'varchar', length: 1024, nullable: true })
+  featuredImageUrl?: string;
 
-  // @Column('text', { array: true, default: [] })
-  // tags?: string[];
+  @Column('text', { array: true, default: [] })
+  tags?: string[];
 
-  // @Column()
-  // metaOptions?: [{ key: string; value: string }];
+  @Column('jsonb', { array: true, default: [] })
+  metaOptions?: CreatePostMetaOptionsDto[];
 
-  // @CreateDateColumn()
-  // createdAt: Date;
+  @CreateDateColumn()
+  createdAt: Date;
 
-  // @UpdateDateColumn()
-  // updatedAt: Date;
+  @UpdateDateColumn()
+  updatedAt: Date;
 }
