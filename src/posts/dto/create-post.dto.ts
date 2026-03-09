@@ -45,7 +45,7 @@ export class CreatePostDto {
   })
   @IsString()
   @MinLength(3)
-  @MaxLength(255)
+  @MaxLength(256)
   @IsNotEmpty()
   title: string;
 
@@ -60,7 +60,7 @@ export class CreatePostDto {
       'Slug must be in lowercase and contain only letters and numbers. For example: my-first-post',
   })
   @Transform(({ value }: { value: string }) => value.toLowerCase())
-  @MaxLength(255)
+  @MaxLength(256)
   @IsNotEmpty()
   slug: string;
 
@@ -105,7 +105,7 @@ export class CreatePostDto {
   @IsArray()
   @IsString({ each: true })
   @MinLength(1, { each: true })
-  @MaxLength(255, { each: true })
+  @MaxLength(256, { each: true })
   @IsOptional()
   tags?: string[];
 

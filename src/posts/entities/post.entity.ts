@@ -30,10 +30,10 @@ export class Post {
   })
   status: PostStatus;
 
-  @Column({ type: 'varchar', length: 255, nullable: false })
+  @Column({ type: 'varchar', length: 256, nullable: false })
   title: string;
 
-  @Column({ type: 'varchar', length: 255, unique: true, nullable: false })
+  @Column({ type: 'varchar', length: 256, unique: true, nullable: false })
   slug: string;
 
   @Column({ type: 'text', nullable: true })
