@@ -66,8 +66,8 @@ export class PostsController {
   })
   @ApiResponse({ status: 404, description: 'Post not found.' })
   @ApiResponse({ status: 500, description: 'Internal server error.' })
-  findOne(@Param('id') id: string) {
-    return this.postsService.findOne(+id);
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.postsService.findOne(id);
   }
 
   // Update a post by id
@@ -88,8 +88,11 @@ export class PostsController {
   @ApiResponse({ status: 400, description: 'Invalid request body.' })
   @ApiResponse({ status: 404, description: 'Post not found.' })
   @ApiResponse({ status: 500, description: 'Internal server error.' })
-  update(@Param('id') id: string, @Body() updatePostDto: UpdatePostDto) {
-    return this.postsService.update(+id, updatePostDto);
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updatePostDto: UpdatePostDto,
+  ) {
+    return this.postsService.update(id, updatePostDto);
   }
 
   // Delete a post by id
