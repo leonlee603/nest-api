@@ -17,7 +17,7 @@ export class MetaOption {
   @Column({ type: 'json', nullable: false })
   metaValue: string;
 
-  @OneToOne(() => Post, (post) => post.metaOptions, { onDelete: 'CASCADE' })
+  @OneToOne(() => Post, (post) => post.metaOptions, { onDelete: 'CASCADE' }) // When the post is deleted, the meta option is also deleted
   @JoinColumn()
   post: Post;
 

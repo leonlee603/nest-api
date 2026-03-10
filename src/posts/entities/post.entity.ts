@@ -5,11 +5,13 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   OneToOne,
+  ManyToOne,
 } from 'typeorm';
 import { PostType } from '../enums/postType.enum';
 import { PostStatus } from '../enums/postStatus.enum';
 import { MetaOption } from '../../meta-options/entities/meta-option.entity';
 import { Tag } from '../../tags/entities/tag.entity';
+import { User } from '../../users/entities/user.entity';
 
 @Entity()
 export class Post {
@@ -54,6 +56,9 @@ export class Post {
     cascade: true,
   })
   metaOptions?: MetaOption;
+
+  @ManyToOne(() => User, (user) => user.posts)
+  author: User;
 
   @CreateDateColumn()
   createdAt: Date;
