@@ -35,4 +35,4 @@ Content-Type: application/json
 }
 
 ## Delete a post by id
-DELETE http://localhost:3000/posts/1  
+DELETE http://localhost:3000/posts/1
