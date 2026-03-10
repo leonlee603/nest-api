@@ -14,8 +14,9 @@ import {
 } from 'class-validator';
 import { PostType } from '../enums/postType.enum';
 import { PostStatus } from '../enums/postStatus.enum';
-import { CreatePostMetaOptionsDto } from './create-post-meta-options.dto';
 import { Transform, Type } from 'class-transformer';
+import { CreateMetaOptionDto } from '../../meta-options/dto/create-meta-option.dto';
+import { CreateTagDto } from '../../tags/dto/create-tag.dto';
 
 export class CreatePostDto {
   // Post type (post, page, story, series)
@@ -99,45 +100,21 @@ export class CreatePostDto {
   // Post tags
   @ApiProperty({
     description: 'The tags of the post',
-    example: ['tag1', 'tag2', 'tag3'],
+    example: [{ id: 1, name: 'Tag 1', slug: 'tag-1' }],
     required: false,
   })
   @IsArray()
-  @IsString({ each: true })
-  @MinLength(1, { each: true })
-  @MaxLength(256, { each: true })
+  @ValidateNested({ each: true })
+  @Type(() => CreateTagDto)
   @IsOptional()
-  tags?: string[];
+  tags?: CreateTagDto[];
 
   // Post metadata
   @ApiProperty({
     description: 'The metadata of the post',
-    example: [
-      { key: 'key1', value: 'value1' },
-      { key: 'key2', value: true },
-    ],
+    example: { metaValue: '{"key": "value"}' },
     required: false,
-    type: 'array',
-    items: {
-      type: 'object',
-      properties: {
-        key: {
-          type: 'string',
-          description: "The key of the post's meta option",
-          example: 'key1',
-        },
-        value: {
-          type: 'any',
-          description: "The value of the post's meta option",
-          example: 'value1',
-        },
-      },
-      required: ['key', 'value'],
-    },
   })
-  @IsArray()
-  @ValidateNested({ each: true })
-  @Type(() => CreatePostMetaOptionsDto)
   @IsOptional()
-  metaOptions?: CreatePostMetaOptionsDto[];
+  metaOptions?: CreateMetaOptionDto;
 }

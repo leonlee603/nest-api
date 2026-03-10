@@ -4,7 +4,10 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToOne,
+  JoinColumn,
 } from 'typeorm';
+import { Post } from '../../posts/entities/post.entity';
 
 @Entity()
 export class MetaOption {
@@ -13,6 +16,10 @@ export class MetaOption {
 
   @Column({ type: 'json', nullable: false })
   metaValue: string;
+
+  @OneToOne(() => Post, (post) => post.metaOptions, { onDelete: 'CASCADE' })
+  @JoinColumn()
+  post: Post;
 
   @CreateDateColumn()
   createdAt: Date;

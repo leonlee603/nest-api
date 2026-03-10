@@ -4,10 +4,12 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToOne,
 } from 'typeorm';
 import { PostType } from '../enums/postType.enum';
 import { PostStatus } from '../enums/postStatus.enum';
-import { CreatePostMetaOptionsDto } from '../dto/create-post-meta-options.dto';
+import { MetaOption } from '../../meta-options/entities/meta-option.entity';
+import { Tag } from '../../tags/entities/tag.entity';
 
 @Entity()
 export class Post {
@@ -46,10 +48,12 @@ export class Post {
   featuredImageUrl?: string;
 
   @Column('text', { array: true, default: [] })
-  tags?: string[];
+  tags?: Tag[];
 
-  @Column('jsonb', { array: true, default: [] })
-  metaOptions?: CreatePostMetaOptionsDto[];
+  @OneToOne(() => MetaOption, (metaOption) => metaOption.post, {
+    cascade: true,
+  })
+  metaOptions?: MetaOption;
 
   @CreateDateColumn()
   createdAt: Date;

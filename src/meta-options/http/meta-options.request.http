@@ -1,0 +1,24 @@
+# Create a new meta option
+POST http://localhost:3000/meta-options
+Content-Type: application/json
+
+{
+  "metaValue": "{\"key\": \"value\", \"key2\": \"value2\"}"
+}
+
+## Get all meta options
+GET http://localhost:3000/meta-options
+
+## Get a meta option by id
+GET http://localhost:3000/meta-options/1
+
+## Update a meta option by id
+PATCH http://localhost:3000/meta-options/1
+Content-Type: application/json
+
+{
+  "metaValue": "{\"key\": \"value\"}"
+}
+
+## Delete a meta option by id
+DELETE http://localhost:3000/meta-options/1
