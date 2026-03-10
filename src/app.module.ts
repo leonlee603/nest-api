@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { APP_PIPE } from '@nestjs/core';
 import { PostsModule } from './posts/posts.module';
 import { TagsModule } from './tags/tags.module';
+import { MetaOptionsModule } from './meta-options/meta-options.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { TagsModule } from './tags/tags.module';
     UsersModule,
     PostsModule,
     TagsModule,
+    MetaOptionsModule,
   ],
   controllers: [AppController],
   providers: [
