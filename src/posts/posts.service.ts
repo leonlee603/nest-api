@@ -139,7 +139,13 @@ export class PostsService {
   }
 
   async remove(id: number) {
+    // return await this.postsRepository.delete(id);
+    // Instead of using delete, we will use findOne and then remove() to delete the post.
+    // Because only remove() will trigger the hooks in the entity.
     const post = await this.findOne(id);
+    if (!post) {
+      throw new NotFoundException('Post not found');
+    }
     return this.postsRepository.remove(post);
   }
 
