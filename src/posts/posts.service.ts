@@ -11,7 +11,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Post } from './entities/post.entity';
 import { UsersService } from '../users/users.service';
 import { TagsService } from '../tags/tags.service';
-// import { MetaOption } from '../meta-options/entities/meta-option.entity';
+import { MetaOption } from '../meta-options/entities/meta-option.entity';
 
 @Injectable()
 export class PostsService {
@@ -77,9 +77,65 @@ export class PostsService {
     return post;
   }
 
-  update(id: number, updatePostDto: UpdatePostDto) {
-    console.log(updatePostDto);
-    return `This action updates a #${id} post`;
+  async update(id: number, updatePostDto: UpdatePostDto) {
+    const post = await this.postsRepository.findOne({
+      where: { id },
+      relations: ['metaOptions', 'tags', 'author'],
+    });
+    if (!post) {
+      throw new NotFoundException('Post not found');
+    }
+
+    if (updatePostDto.slug && updatePostDto.slug !== post.slug) {
+      const existingSlug = await this.postsRepository.findOne({
+        where: { slug: updatePostDto.slug },
+      });
+      if (existingSlug) {
+        throw new BadRequestException('Slug already exists');
+      }
+    }
+
+    // 1. Handle tags if provided
+    let tags = post.tags;
+    if (updatePostDto.tags) {
+      tags =
+        updatePostDto.tags.length > 0
+          ? await Promise.all(
+              updatePostDto.tags.map((name) => this.preloadTagsByName(name)),
+            )
+          : [];
+    }
+
+    // 2. Handle metaOptions if provided
+    if (updatePostDto.metaOptions) {
+      if (post.metaOptions) {
+        // update existing metaOption instead of creating a new one
+        post.metaOptions.metaValue =
+          updatePostDto.metaOptions.metaValue ?? post.metaOptions.metaValue;
+      } else {
+        // create new metaOption if none existed
+        const meta = new MetaOption();
+        meta.metaValue = updatePostDto.metaOptions.metaValue;
+        post.metaOptions = meta;
+      }
+    }
+
+    // 3. Merge scalar fields (but NOT metaOptions, already handled)
+    const {
+      metaOptions: _metaOptionsFromDto,
+      tags: _tagsFromDto,
+      ...rest
+    } = updatePostDto;
+    console.log(_metaOptionsFromDto);
+    console.log(_tagsFromDto);
+
+    // because metaOptions is a one-to-one relationship, we need to handle it separately
+    Object.assign(post, {
+      ...rest,
+      tags,
+    });
+
+    return this.postsRepository.save(post);
   }
 
   async remove(id: number) {
