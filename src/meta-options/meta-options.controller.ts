@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { MetaOptionsService } from './meta-options.service';
 import { CreateMetaOptionDto } from './dto/create-meta-option.dto';
@@ -39,7 +40,7 @@ export class MetaOptionsController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.metaOptionsService.remove(+id);
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.metaOptionsService.remove(id);
   }
 }

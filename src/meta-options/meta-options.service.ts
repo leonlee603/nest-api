@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateMetaOptionDto } from './dto/create-meta-option.dto';
 import { UpdateMetaOptionDto } from './dto/update-meta-option.dto';
 import { Repository } from 'typeorm';
@@ -30,7 +30,13 @@ export class MetaOptionsService {
     return `This action updates a #${id} metaOption`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} metaOption`;
+  async remove(id: number) {
+    const metaOption = await this.metaOptionsRepository.findOne({
+      where: { id },
+    });
+    if (!metaOption) {
+      throw new NotFoundException('Meta option not found');
+    }
+    return this.metaOptionsRepository.remove(metaOption);
   }
 }
