@@ -10,7 +10,7 @@ Content-Type: application/json
   "content": "This is the content of my first post",
   "schema": "{\r\n  \"@context\": \"https:\/\/schema.org\",\r\n  \"@type\": \"BlogPosting\"\r\n}",
   "featuredImageUrl": "https://example.com/image.jpg",
-  //"tags": ["tag1", "tag2", "tag3"],
+  "tags": ["tag 1", "tag 2", "tag 3"],
   "metaOptions": { "metaValue": "{\"key\": \"value\", \"key2\": \"value2\"}" }
 }
 

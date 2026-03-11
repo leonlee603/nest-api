@@ -10,13 +10,11 @@ import {
   IsJSON,
   IsUrl,
   IsArray,
-  ValidateNested,
 } from 'class-validator';
 import { PostType } from '../enums/postType.enum';
 import { PostStatus } from '../enums/postStatus.enum';
-import { Transform, Type } from 'class-transformer';
+import { Transform } from 'class-transformer';
 import { CreateMetaOptionDto } from '../../meta-options/dto/create-meta-option.dto';
-import { CreateTagDto } from '../../tags/dto/create-tag.dto';
 
 export class CreatePostDto {
   // Post type (post, page, story, series)
@@ -102,14 +100,13 @@ export class CreatePostDto {
   // Post tags
   @ApiProperty({
     description: 'The tags of the post',
-    example: [{ id: 1, name: 'Tag 1', slug: 'tag-1' }],
+    example: ['tag 1', 'tag 2', 'tag 3'],
     required: false,
   })
   @IsArray()
-  @ValidateNested({ each: true })
-  @Type(() => CreateTagDto)
+  @IsString({ each: true })
   @IsOptional()
-  tags?: CreateTagDto[];
+  tags?: string[];
 
   // Post metadata
   @ApiProperty({

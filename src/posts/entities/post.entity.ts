@@ -6,6 +6,8 @@ import {
   UpdateDateColumn,
   OneToOne,
   ManyToOne,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
 import { PostType } from '../enums/postType.enum';
 import { PostStatus } from '../enums/postStatus.enum';
@@ -49,7 +51,8 @@ export class Post {
   @Column({ type: 'varchar', length: 1024, nullable: true })
   featuredImageUrl?: string;
 
-  @Column('text', { array: true, default: [] })
+  @ManyToMany(() => Tag, (tag) => tag.posts, { cascade: true })
+  @JoinTable()
   tags?: Tag[];
 
   @OneToOne(() => MetaOption, (metaOption) => metaOption.post, {

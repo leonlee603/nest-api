@@ -30,11 +30,15 @@ export class TagsService {
   }
 
   findAll() {
-    return this.tagsRepository.find();
+    return this.tagsRepository.find({ relations: ['posts'] });
   }
 
   findOne(id: number) {
     return `This action returns a #${id} tag`;
+  }
+
+  findOneBySlug(slug: string) {
+    return this.tagsRepository.findOne({ where: { slug } });
   }
 
   update(id: number, updateTagDto: UpdateTagDto) {
