@@ -60,7 +60,9 @@ export class CreatePostDto {
     message:
       'Slug must be in lowercase and contain only letters and numbers. For example: my-first-post',
   })
-  @Transform(({ value }: { value: string }) => value.toLowerCase())
+  @Transform(({ value }: { value: string }) =>
+    value.toLowerCase().trim().replace(/ /g, '-'),
+  )
   @MaxLength(256)
   @IsNotEmpty()
   slug: string;

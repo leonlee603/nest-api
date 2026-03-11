@@ -1,0 +1,27 @@
+# Create a new tag
+POST http://localhost:3000/tags
+Content-Type: application/json
+
+{
+  "name": "Tag 1",
+  "slug": "tag-1",
+  "schema": "{\"key\": \"value\"}"
+}
+
+## Get all tags
+GET http://localhost:3000/tags
+
+## Get a tag by id
+GET http://localhost:3000/tags/1
+
+## Update a tag by id
+PATCH http://localhost:3000/tags/1
+Content-Type: application/json
+
+{
+  "name": "Tag 1",
+  "slug": "tag-1"
+}
+
+## Delete a tag by id
+DELETE http://localhost:3000/tags/1
