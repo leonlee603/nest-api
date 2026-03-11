@@ -3,8 +3,8 @@ POST http://localhost:3000/tags
 Content-Type: application/json
 
 {
-  "name": "Tag 1",
-  "slug": "tag-1",
+  "name": "tag 6",
+  "slug": "tag-6",
   "schema": "{\"key\": \"value\"}"
 }
 
