@@ -151,10 +151,20 @@ export class PostsService {
 
   async preloadTagsByName(name: string) {
     const slug = name.toLowerCase().trim().replace(/ /g, '-');
-    const existingTag = await this.tagsService.findOneBySlug(slug);
+    // 1. Find tag including soft-deleted ones
+    const existingTag = await this.tagsService.findOneWithDeletedBySlug(slug);
+
+    // 2. If exists and is soft-deleted -> restore and reuse
+    if (existingTag && existingTag.deletedAt) {
+      return (await this.tagsService.restore(existingTag.id))!;
+    }
+
+    // 3. If exists and not deleted -> just reuse
     if (existingTag) {
       return existingTag;
     }
+
+    // 4. Else create new
     return this.tagsService.create({ name, slug });
   }
 }

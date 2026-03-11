@@ -38,11 +38,19 @@ export class TagsService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} tag`;
+    return this.tagsRepository.findOne({ where: { id } });
   }
 
   findOneBySlug(slug: string) {
     return this.tagsRepository.findOne({ where: { slug } });
+  }
+
+  findOneWithDeletedBySlug(slug: string) {
+    return this.tagsRepository
+      .createQueryBuilder('tag')
+      .withDeleted() // include soft-deleted
+      .where('tag.slug = :slug', { slug })
+      .getOne();
   }
 
   update(id: number, updateTagDto: UpdateTagDto) {
@@ -59,5 +67,18 @@ export class TagsService {
       throw new NotFoundException('Tag not found');
     }
     return this.tagsRepository.remove(tag);
+  }
+
+  async softDelete(id: number) {
+    const tag = await this.tagsRepository.findOne({ where: { id } });
+    if (!tag) {
+      throw new NotFoundException('Tag not found');
+    }
+    return this.tagsRepository.softDelete(id);
+  }
+
+  async restore(id: number) {
+    await this.tagsRepository.restore(id);
+    return this.findOne(id);
   }
 }

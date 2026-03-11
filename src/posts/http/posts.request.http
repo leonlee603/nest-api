@@ -10,7 +10,7 @@ Content-Type: application/json
   "content": "This is the content of my first post",
   "schema": "{\r\n  \"@context\": \"https:\/\/schema.org\",\r\n  \"@type\": \"BlogPosting\"\r\n}",
   "featuredImageUrl": "https://example.com/image.jpg",
-  "tags": ["tag 1", "tag 2", "tag 3"],
+  "tags": ["tag 1", "tag 7", "tag 6"],
   "metaOptions": { "metaValue": "{\"key\": \"value\", \"key2\": \"value2\"}" }
 }
 
@@ -21,7 +21,7 @@ GET http://localhost:3000/posts
 GET http://localhost:3000/posts/1
 
 ## Update a post by id
-PATCH http://localhost:3000/posts/1
+PATCH http://localhost:3000/posts/34
 Content-Type: application/json
 
 {
@@ -30,9 +30,9 @@ Content-Type: application/json
   "content": "This is the content of my first post",
   "schema": "{\r\n  \"@context\": \"https:\/\/schema.org\",\r\n  \"@type\": \"BlogPosting\"\r\n}",
   "featuredImageUrl": "https://example.com/image.jpg",
-  "tags": ["tag 1", "tag 2"],
+  "tags": ["tag 1", "tag 6"],
   "metaOptions": { "metaValue": "{\"key\": \"value\", \"key2\": \"value2\"}" }
 }
 
 ## Delete a post by id
-DELETE http://localhost:3000/posts/1
+DELETE http://localhost:3000/posts/33

@@ -24,4 +24,10 @@ Content-Type: application/json
 }
 
 ## Delete a tag by id
-DELETE http://localhost:3000/tags/1
+DELETE http://localhost:3000/tags/11
+
+## Soft delete a tag by id
+DELETE http://localhost:3000/tags/11/soft-delete
+
+## Restore a tag by id
+PATCH http://localhost:3000/tags/11/restore

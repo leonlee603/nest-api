@@ -38,6 +38,6 @@ export class Tag {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @DeleteDateColumn()
+  @DeleteDateColumn() // This is a soft delete column.
   deletedAt: Date;
 }
