@@ -18,16 +18,28 @@ export class MetaOptionsService {
   }
 
   findAll() {
-    return `This action returns all metaOptions`;
+    return this.metaOptionsRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} metaOption`;
+  async findOne(id: number) {
+    const metaOption = await this.metaOptionsRepository.findOne({
+      where: { id },
+    });
+    if (!metaOption) {
+      throw new NotFoundException('Meta option not found');
+    }
+    return metaOption;
   }
 
-  update(id: number, updateMetaOptionDto: UpdateMetaOptionDto) {
-    console.log(updateMetaOptionDto);
-    return `This action updates a #${id} metaOption`;
+  async update(id: number, updateMetaOptionDto: UpdateMetaOptionDto) {
+    const metaOption = await this.metaOptionsRepository.findOne({
+      where: { id },
+    });
+    if (!metaOption) {
+      throw new NotFoundException('Meta option not found');
+    }
+    Object.assign(metaOption, updateMetaOptionDto);
+    return this.metaOptionsRepository.save(metaOption);
   }
 
   async remove(id: number) {
