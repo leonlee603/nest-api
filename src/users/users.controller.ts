@@ -19,6 +19,7 @@ export class UsersController {
 
   // Create a new user
   @Post()
+  // Swagger documentation
   @ApiOperation({
     summary: 'Create a new user',
     description: 'Create a new user',
@@ -29,12 +30,14 @@ export class UsersController {
   })
   @ApiResponse({ status: 400, description: 'Invalid request body.' })
   @ApiResponse({ status: 500, description: 'Internal server error.' })
+  // Controller method
   create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
   }
 
   // Get all users
   @Get()
+  // Swagger documentation
   @ApiOperation({
     summary: 'Get all users',
     description: 'Get all users',
@@ -44,20 +47,22 @@ export class UsersController {
     description: 'The users have been successfully retrieved.',
   })
   @ApiResponse({ status: 500, description: 'Internal server error.' })
+  // Controller method
   findAll() {
     return this.usersService.findAll();
   }
 
   // Get a user by id
   @Get(':id')
+  // Swagger documentation
   @ApiOperation({
     summary: 'Get a user by id',
     description: 'Get a user by id',
   })
   @ApiParam({
     name: 'id',
-    description: 'The id of the user',
-    example: '1',
+    description: 'The id of the user (UUID)',
+    example: '858af824-0f59-469d-97d7-fdf509c17798',
   })
   @ApiResponse({
     status: 200,
@@ -65,20 +70,22 @@ export class UsersController {
   })
   @ApiResponse({ status: 404, description: 'User not found.' })
   @ApiResponse({ status: 500, description: 'Internal server error.' })
+  // Controller method
   findOne(@Param('id') id: string) {
-    return this.usersService.findOne(+id);
+    return this.usersService.findOne(id);
   }
 
   // Update a user by id
   @Patch(':id')
+  // Swagger documentation
   @ApiOperation({
     summary: 'Update a user by id',
     description: 'Update a user by id',
   })
   @ApiParam({
     name: 'id',
-    description: 'The id of the user',
-    example: '1',
+    description: 'The id of the user (UUID)',
+    example: '858af824-0f59-469d-97d7-fdf509c17798',
   })
   @ApiResponse({
     status: 200,
@@ -87,20 +94,22 @@ export class UsersController {
   @ApiResponse({ status: 400, description: 'Invalid request body.' })
   @ApiResponse({ status: 404, description: 'User not found.' })
   @ApiResponse({ status: 500, description: 'Internal server error.' })
+  // Controller method
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(+id, updateUserDto);
+    return this.usersService.update(id, updateUserDto);
   }
 
   // Delete a user by id
   @Delete(':id')
-  @ApiParam({
-    name: 'id',
-    description: 'The id of the user',
-    example: '1',
-  })
+  // Swagger documentation
   @ApiOperation({
     summary: 'Delete a user by id',
     description: 'Delete a user by id',
+  })
+  @ApiParam({
+    name: 'id',
+    description: 'The id of the user (UUID)',
+    example: '858af824-0f59-469d-97d7-fdf509c17798',
   })
   @ApiResponse({
     status: 200,
@@ -108,7 +117,8 @@ export class UsersController {
   })
   @ApiResponse({ status: 404, description: 'User not found.' })
   @ApiResponse({ status: 500, description: 'Internal server error.' })
+  // Controller method
   remove(@Param('id') id: string) {
-    return this.usersService.remove(+id);
+    return this.usersService.remove(id);
   }
 }

@@ -12,17 +12,20 @@ Content-Type: application/json
 GET http://localhost:3000/users
 
 ## Get a user by id
-GET http://localhost:3000/users/1
+GET http://localhost:3000/users/858af824-0f59-469d-97d7-fdf509c17798
+
+## Get a user by email
+GET http://localhost:3000/users/email/john.doe@example.com
 
 ## Update a user by id
-PATCH http://localhost:3000/users/1
+PATCH http://localhost:3000/users/f4d02dc7-a1df-41fb-9c1f-4643e64bdd0f
 Content-Type: application/json
 
 {
-  "name": "John Doe",
-  "email": "john.doe@example.com",
+  "name": "John Doe3",
+  "email": "john.doe3@example.com",
   "password": "Password@1234"
 }
 
 ## Delete a user by id
-DELETE http://localhost:3000/users/1
+DELETE http://localhost:3000/users/f4d02dc7-a1df-41fb-9c1f-4643e64bdd0f
