@@ -20,6 +20,7 @@ export class PostsController {
 
   // Create a new post
   @Post()
+  // Swagger documentation
   @ApiOperation({
     summary: 'Create a new post',
     description: 'Create a new post',
@@ -30,12 +31,14 @@ export class PostsController {
   })
   @ApiResponse({ status: 400, description: 'Invalid request body.' })
   @ApiResponse({ status: 500, description: 'Internal server error.' })
+  // Controller method
   create(@Body() createPostDto: CreatePostDto) {
     return this.postsService.create(createPostDto);
   }
 
   // Get all posts
   @Get()
+  // Swagger documentation
   @ApiOperation({
     summary: 'Get all posts',
     description: 'Get all posts',
@@ -45,12 +48,14 @@ export class PostsController {
     description: 'The posts have been successfully retrieved.',
   })
   @ApiResponse({ status: 500, description: 'Internal server error.' })
+  // Controller method
   findAll() {
     return this.postsService.findAll();
   }
 
   // Get a post by id
   @Get(':id')
+  // Swagger documentation
   @ApiOperation({
     summary: 'Get a post by id',
     description: 'Get a post by id',
@@ -66,12 +71,14 @@ export class PostsController {
   })
   @ApiResponse({ status: 404, description: 'Post not found.' })
   @ApiResponse({ status: 500, description: 'Internal server error.' })
+  // Controller method
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.postsService.findOne(id);
   }
 
   // Update a post by id
   @Patch(':id')
+  // Swagger documentation
   @ApiOperation({
     summary: 'Update a post by id',
     description: 'Update a post by id',
@@ -88,6 +95,7 @@ export class PostsController {
   @ApiResponse({ status: 400, description: 'Invalid request body.' })
   @ApiResponse({ status: 404, description: 'Post not found.' })
   @ApiResponse({ status: 500, description: 'Internal server error.' })
+  // Controller method
   update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updatePostDto: UpdatePostDto,
@@ -97,6 +105,7 @@ export class PostsController {
 
   // Delete a post by id
   @Delete(':id')
+  // Swagger documentation
   @ApiParam({
     name: 'id',
     description: 'The id of the post',
@@ -112,6 +121,7 @@ export class PostsController {
   })
   @ApiResponse({ status: 404, description: 'Post not found.' })
   @ApiResponse({ status: 500, description: 'Internal server error.' })
+  // Controller method
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.postsService.remove(id);
   }

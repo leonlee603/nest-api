@@ -23,6 +23,7 @@ export class PostsService {
     private usersService: UsersService,
     private tagsService: TagsService,
   ) {}
+
   async create(createPostDto: CreatePostDto) {
     // TODO: get the user from the guard and set it to the post
     // create a demo user for testing
@@ -70,7 +71,10 @@ export class PostsService {
   }
 
   async findOne(id: number) {
-    const post = await this.postsRepository.findOne({ where: { id } });
+    const post = await this.postsRepository.findOne({
+      where: { id },
+      relations: ['metaOptions', 'author', 'tags'],
+    });
     if (!post) {
       throw new NotFoundException('Post not found');
     }
@@ -125,7 +129,7 @@ export class PostsService {
       metaOptions: _metaOptionsFromDto,
       tags: _tagsFromDto,
       ...rest
-    } = updatePostDto;
+    } = updatePostDto; // extract the rest because we have already handled metaOptions and tags separately
     console.log(_metaOptionsFromDto);
     console.log(_tagsFromDto);
 
