@@ -160,7 +160,7 @@ export class PostsService {
 
     // 2. If exists and is soft-deleted -> restore and reuse
     if (existingTag && existingTag.deletedAt) {
-      return (await this.tagsService.restore(existingTag.id))!;
+      return await this.tagsService.restore(existingTag.id);
     }
 
     // 3. If exists and not deleted -> just reuse

@@ -21,13 +21,13 @@ export class TagsService {
       where: { name: createTagDto.name },
     });
     if (existingName) {
-      throw new BadRequestException('Name already exists');
+      throw new BadRequestException('Tag name already exists');
     }
-    const existingTag = await this.tagsRepository.findOne({
+    const existingSlug = await this.tagsRepository.findOne({
       where: { slug: createTagDto.slug },
     });
-    if (existingTag) {
-      throw new BadRequestException('Tag already exists');
+    if (existingSlug) {
+      throw new BadRequestException('Tag slug already exists');
     }
     const tag = this.tagsRepository.create(createTagDto);
     return await this.tagsRepository.save(tag);
@@ -37,25 +37,42 @@ export class TagsService {
     return this.tagsRepository.find({ relations: ['posts'] });
   }
 
-  findOne(id: number) {
-    return this.tagsRepository.findOne({ where: { id } });
+  async findOne(id: number) {
+    const tag = await this.tagsRepository.findOne({ where: { id } });
+    if (!tag) {
+      throw new NotFoundException('Tag not found');
+    }
+    return tag;
   }
 
-  findOneBySlug(slug: string) {
-    return this.tagsRepository.findOne({ where: { slug } });
+  async findOneBySlug(slug: string) {
+    const tag = await this.tagsRepository.findOne({ where: { slug } });
+    if (!tag) {
+      throw new NotFoundException('Tag not found');
+    }
+    return tag;
   }
 
-  findOneWithDeletedBySlug(slug: string) {
-    return this.tagsRepository
+  async findOneWithDeletedBySlug(slug: string) {
+    const tag = await this.tagsRepository
       .createQueryBuilder('tag')
       .withDeleted() // include soft-deleted
       .where('tag.slug = :slug', { slug })
       .getOne();
+    // if (!tag) {
+    //   throw new NotFoundException('Tag not found');
+    // }
+    // Don't throw an error if the tag is not found. Because we may want to create a new tag if not found.
+    return tag;
   }
 
-  update(id: number, updateTagDto: UpdateTagDto) {
-    console.log(updateTagDto);
-    return `This action updates a #${id} tag`;
+  async update(id: number, updateTagDto: UpdateTagDto) {
+    const tag = await this.tagsRepository.findOne({ where: { id } });
+    if (!tag) {
+      throw new NotFoundException('Tag not found');
+    }
+    Object.assign(tag, updateTagDto);
+    return this.tagsRepository.save(tag);
   }
 
   async remove(id: number) {

@@ -21,7 +21,7 @@ GET http://localhost:3000/posts
 GET http://localhost:3000/posts/37
 
 ## Update a post by id
-PATCH http://localhost:3000/posts/37
+PATCH http://localhost:3000/posts/38
 Content-Type: application/json
 
 {
