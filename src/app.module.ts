@@ -7,9 +7,16 @@ import { APP_PIPE } from '@nestjs/core';
 import { PostsModule } from './posts/posts.module';
 import { TagsModule } from './tags/tags.module';
 import { MetaOptionsModule } from './meta-options/meta-options.module';
+import { ConfigModule } from '@nestjs/config';
+
+const ENV = process.env.NODE_ENV || 'development';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: `.env.${ENV}`,
+    }),
     TypeOrmModule.forRootAsync({
       imports: [],
       inject: [],
