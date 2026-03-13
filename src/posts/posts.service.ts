@@ -13,6 +13,7 @@ import { UsersService } from '../users/users.service';
 import { TagsService } from '../tags/tags.service';
 import { MetaOption } from '../meta-options/entities/meta-option.entity';
 import { PostQueryDto } from './dto/post-query.dto';
+import { buildPaginationResult } from 'src/common/pagination/pagination.helper';
 
 @Injectable()
 export class PostsService {
@@ -111,16 +112,17 @@ export class PostsService {
 
     const [posts, total] = await qb.getManyAndCount();
 
-    return {
-      data: posts,
-      meta: {
-        totalPosts: total,
-        postCount: posts.length,
-        postsPerPage: limit!,
-        totalPages: Math.ceil(total / limit!),
-        currentPage: page,
-      },
-    };
+    // return {
+    //   data: posts,
+    //   meta: {
+    //     totalPosts: total,
+    //     postCount: posts.length,
+    //     postsPerPage: limit!,
+    //     totalPages: Math.ceil(total / limit!),
+    //     currentPage: page,
+    //   },
+    // };
+    return buildPaginationResult<Post>(posts, total, postQueryDto);
   }
 
   async findOne(id: number) {
