@@ -7,11 +7,13 @@ import {
   Param,
   Delete,
   ParseIntPipe,
+  Query,
 } from '@nestjs/common';
 import { PostsService } from './posts.service';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { PostQueryDto } from './dto/post-query.dto';
 
 @ApiTags('Posts')
 @Controller('posts')
@@ -49,7 +51,8 @@ export class PostsController {
   })
   @ApiResponse({ status: 500, description: 'Internal server error.' })
   // Controller method
-  findAll() {
+  findAll(@Query() postQueryDto: PostQueryDto) {
+    console.log(postQueryDto);
     return this.postsService.findAll();
   }
 
