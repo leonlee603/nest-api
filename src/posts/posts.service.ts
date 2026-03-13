@@ -12,6 +12,7 @@ import { Post } from './entities/post.entity';
 import { UsersService } from '../users/users.service';
 import { TagsService } from '../tags/tags.service';
 import { MetaOption } from '../meta-options/entities/meta-option.entity';
+import { PostQueryDto } from './dto/post-query.dto';
 
 @Injectable()
 export class PostsService {
@@ -64,10 +65,62 @@ export class PostsService {
     return await this.postsRepository.save(post);
   }
 
-  findAll() {
-    return this.postsRepository.find({
-      relations: ['metaOptions', 'author', 'tags'],
-    });
+  async findAll(postQueryDto: PostQueryDto) {
+    const { page, limit, ...query } = postQueryDto;
+    const skip = (page! - 1) * limit!;
+
+    const qb = this.postsRepository
+      .createQueryBuilder('post')
+      .leftJoinAndSelect('post.metaOptions', 'metaOptions')
+      .leftJoinAndSelect('post.author', 'author')
+      .leftJoinAndSelect('post.tags', 'tags')
+      .orderBy('post.createdAt', 'DESC')
+      .skip(skip)
+      .take(limit);
+
+    if (query.postType) {
+      qb.andWhere('post.postType = :postType', { postType: query.postType });
+    }
+
+    if (query.status) {
+      qb.andWhere('post.status = :status', { status: query.status });
+    }
+
+    if (query.authorId) {
+      qb.andWhere('post.authorId = :authorId', { authorId: query.authorId });
+    }
+
+    if (query.search) {
+      qb.andWhere('(post.title ILIKE :search OR post.content ILIKE :search)', {
+        search: `%${query.search}%`,
+      });
+    }
+
+    if (query.tagSlugs && query.tagSlugs.length > 0) {
+      qb.andWhere('tags.slug IN (:...tagSlugs)', { tagSlugs: query.tagSlugs });
+      // OR semantics: post has at least one of these tags
+    }
+
+    if (query.from) {
+      qb.andWhere('post.createdAt >= :from', { from: query.from });
+    }
+
+    if (query.to) {
+      qb.andWhere('post.createdAt <= :to', { to: query.to });
+    }
+
+    const [posts, total] = await qb.getManyAndCount();
+
+    return {
+      data: posts,
+      meta: {
+        totalPosts: total,
+        postCount: posts.length,
+        postsPerPage: limit!,
+        totalPages: Math.ceil(total / limit!),
+        currentPage: page,
+      },
+    };
   }
 
   async findOne(id: number) {

@@ -52,8 +52,7 @@ export class PostsController {
   @ApiResponse({ status: 500, description: 'Internal server error.' })
   // Controller method
   findAll(@Query() postQueryDto: PostQueryDto) {
-    console.log(postQueryDto);
-    return this.postsService.findAll();
+    return this.postsService.findAll(postQueryDto);
   }
 
   // Get a post by id

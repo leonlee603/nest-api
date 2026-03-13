@@ -1,6 +1,5 @@
-import { Transform, Type } from 'class-transformer';
+import { Transform } from 'class-transformer';
 import {
-  IsInt,
   IsOptional,
   IsString,
   IsArray,
@@ -22,9 +21,8 @@ class PostQueryBaseDto {
   status?: PostStatus;
 
   @IsOptional()
-  @Type(() => Number)
-  @IsInt()
-  authorId?: number;
+  @IsString()
+  authorId?: string;
 
   @IsOptional()
   @IsString()
