@@ -18,6 +18,9 @@ export class AuthenticationGuard implements CanActivate {
     private readonly reflector: Reflector,
     private readonly accessTokenGuard: AccessTokenGuard,
   ) {
+    // Map of authentication types to guards
+    // If the authentication type is AuthType.BEARER, use the AccessTokenGuard
+    // If the authentication type is AuthType.NONE, use a guard that always returns true
     this.authTypeGuardMap = {
       [AuthType.BEARER]: this.accessTokenGuard,
       [AuthType.NONE]: {
@@ -27,6 +30,7 @@ export class AuthenticationGuard implements CanActivate {
   }
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
+    //
     const authTypes = this.reflector.getAllAndOverride<AuthType[]>(
       AUTH_TYPE_KEY,
       [context.getHandler(), context.getClass()],
