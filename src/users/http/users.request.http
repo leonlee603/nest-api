@@ -18,12 +18,12 @@ GET http://localhost:3000/users/858af824-0f59-469d-97d7-fdf509c17798
 GET http://localhost:3000/users/email/john.doe@example.com
 
 ## Update a user by id
-PATCH http://localhost:3000/users/f4d02dc7-a1df-41fb-9c1f-4643e64bdd0f
+PATCH http://localhost:3000/users/858af824-0f59-469d-97d7-fdf509c17798
 Content-Type: application/json
 
 {
-  "name": "John Doe3",
-  "email": "john.doe3@example.com",
+  "name": "John Doe",
+  "email": "john.doe@example.com",
   "password": "Password@1234"
 }
 

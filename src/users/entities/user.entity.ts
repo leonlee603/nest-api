@@ -19,7 +19,7 @@ export class User {
   @Column({ type: 'varchar', length: 256, unique: true, nullable: false })
   email: string;
 
-  @Column({ type: 'varchar', length: 256, select: false, nullable: false })
+  @Column({ type: 'varchar', length: 256, nullable: false })
   password: string;
 
   @OneToMany(() => Post, (post) => post.author, { cascade: true })
