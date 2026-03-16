@@ -11,6 +11,8 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Auth } from '../auth/decorator/auth.decorator';
+import { AuthType } from '../auth/enums/auth-type.enum';
 
 @ApiTags('Users')
 @Controller('users')
@@ -19,6 +21,7 @@ export class UsersController {
 
   // Create a new user
   @Post()
+  @Auth(AuthType.NONE)
   // Swagger documentation
   @ApiOperation({
     summary: 'Create a new user',

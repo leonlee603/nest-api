@@ -3,12 +3,15 @@ import { AuthService } from './auth.service';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { SignInDto } from './dto/signin.dto';
+import { Auth } from './decorator/auth.decorator';
+import { AuthType } from './enums/auth-type.enum';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('sign-up')
+  @Auth(AuthType.NONE)
   // Swagger documentation
   @ApiOperation({
     summary: 'Sign up a user',
@@ -26,6 +29,7 @@ export class AuthController {
   }
 
   @Post('sign-in')
+  @Auth(AuthType.NONE)
   @HttpCode(HttpStatus.OK)
   // Swagger documentation
   @ApiOperation({

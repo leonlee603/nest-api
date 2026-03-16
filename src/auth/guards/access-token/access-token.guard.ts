@@ -30,7 +30,7 @@ export class AccessTokenGuard implements CanActivate {
         sub: string;
         email: string;
       }>(token, this.jwtConfiguration);
-      request[REQUEST_USER_KEY] = payload;
+      request[REQUEST_USER_KEY] = payload; // request.user = {sub: string, email: string}
       console.log(payload);
     } catch {
       throw new UnauthorizedException();
