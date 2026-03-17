@@ -14,6 +14,8 @@ import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { PostQueryDto } from './dto/post-query.dto';
+import { ActiveUser } from 'src/auth/decorator/active-user.decorator';
+import type { ActiveUserData } from 'src/auth/interfaces/active-user-data.interface';
 
 @ApiTags('Posts')
 @Controller('posts')
@@ -34,8 +36,11 @@ export class PostsController {
   @ApiResponse({ status: 400, description: 'Invalid request body.' })
   @ApiResponse({ status: 500, description: 'Internal server error.' })
   // Controller method
-  create(@Body() createPostDto: CreatePostDto) {
-    return this.postsService.create(createPostDto);
+  create(
+    @Body() createPostDto: CreatePostDto,
+    @ActiveUser() user: ActiveUserData,
+  ) {
+    return this.postsService.create(createPostDto, user);
   }
 
   // Get all posts

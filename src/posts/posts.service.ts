@@ -14,6 +14,7 @@ import { TagsService } from '../tags/tags.service';
 import { MetaOption } from '../meta-options/entities/meta-option.entity';
 import { PostQueryDto } from './dto/post-query.dto';
 import { buildPaginationResult } from 'src/common/pagination/pagination.helper';
+import type { ActiveUserData } from 'src/auth/interfaces/active-user-data.interface';
 
 @Injectable()
 export class PostsService {
@@ -26,13 +27,9 @@ export class PostsService {
     private tagsService: TagsService,
   ) {}
 
-  async create(createPostDto: CreatePostDto) {
-    // TODO: get the user from the guard and set it to the post
-    // create a demo user for testing
-    const demoUser = await this.usersService.findOneByEmail(
-      'john.doe@example.com',
-    );
-    if (!demoUser) {
+  async create(createPostDto: CreatePostDto, user: ActiveUserData) {
+    const currentUser = await this.usersService.findOneById(user.sub);
+    if (!currentUser) {
       throw new UnauthorizedException('Please login to create a post');
     }
 
@@ -62,7 +59,7 @@ export class PostsService {
       ...createPostDto,
       tags,
     });
-    post.author = demoUser;
+    post.author = currentUser;
     return await this.postsRepository.save(post);
   }
 

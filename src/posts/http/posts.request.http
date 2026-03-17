@@ -1,12 +1,13 @@
 # Create a new post
 POST http://localhost:3000/posts
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3MTRkZjg5Zi1kNWY1LTQ1MDMtYTFjYi1kOWZiYTZiZGYwOGMiLCJlbWFpbCI6ImpvaG4uZG9lNEBleGFtcGxlLmNvbSIsImlhdCI6MTc3MzY4MjI0NSwiZXhwIjoxNzczNjg1ODQ1LCJhdWQiOiJsb2NhbGhvc3Q6MzAwMCIsImlzcyI6ImxvY2FsaG9zdDozMDAwIn0.wCIIT8FQFsD-MrbSlAlwMoOsR9ZyQBmC_jhtiJsvdiE
 
 {
   "postType": "post",
   "status": "draft",
   "title": "My First Post",
-  "slug": "my-first-post",
+  "slug": "my-first-post10",
   "content": "This is the content of my first post",
   "schema": "{\r\n  \"@context\": \"https:\/\/schema.org\",\r\n  \"@type\": \"BlogPosting\"\r\n}",
   "featuredImageUrl": "https://example.com/image.jpg",
