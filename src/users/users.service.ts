@@ -11,7 +11,6 @@ import { User } from './entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { HashingProvider } from 'src/auth/providers/hashing.provider';
-import { UpdateRefreshTokenDto } from './dto/update-refresh-token.dto';
 
 @Injectable()
 export class UsersService {
@@ -99,15 +98,12 @@ export class UsersService {
     return this.userRepository.save(user);
   }
 
-  async updateRefreshToken(
-    id: string,
-    updateRefreshTokenDto: UpdateRefreshTokenDto,
-  ) {
+  async updateRefreshToken(id: string, refreshTokenHash: string) {
     const user = await this.userRepository.findOne({ where: { id } });
     if (!user) {
       throw new NotFoundException('User not found');
     }
-    Object.assign(user, updateRefreshTokenDto);
+    Object.assign(user, { refreshTokenHash });
     return this.userRepository.save(user);
   }
 

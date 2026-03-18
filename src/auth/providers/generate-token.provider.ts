@@ -66,7 +66,7 @@ export class GenerateTokenProvider {
     const refreshTokenHash =
       await this.hashingProvider.hashPassword(refreshToken);
     // user.refreshTokenHash = refreshTokenHash;
-    await this.usersService.updateRefreshToken(user.id, { refreshTokenHash });
+    await this.usersService.updateRefreshToken(user.id, refreshTokenHash);
 
     return {
       accessToken,
