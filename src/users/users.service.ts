@@ -11,6 +11,9 @@ import { User } from './entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { HashingProvider } from 'src/auth/providers/hashing.provider';
+import { FindOneByGoogleIdProvider } from './providers/find-one-by-google-id.provider';
+import { CreateGoogleUserProvider } from './providers/create-google-user.provider';
+import { GoogleUser } from './interfaces/google-user.interface';
 
 @Injectable()
 export class UsersService {
@@ -19,6 +22,8 @@ export class UsersService {
     private userRepository: Repository<User>,
     @Inject(forwardRef(() => HashingProvider))
     private hashingProvider: HashingProvider,
+    private createGoogleUserProvider: CreateGoogleUserProvider,
+    private findOneByGoogleIdProvider: FindOneByGoogleIdProvider,
   ) {}
 
   async create(createUserDto: CreateUserDto) {
@@ -113,5 +118,13 @@ export class UsersService {
       throw new NotFoundException('User not found');
     }
     return this.userRepository.remove(user);
+  }
+
+  async findOneByGoogleId(googleId: string) {
+    return await this.findOneByGoogleIdProvider.findOneByGoogleId(googleId);
+  }
+
+  async createGoogleUser(googleUser: GoogleUser) {
+    return await this.createGoogleUserProvider.createGoogleUser(googleUser);
   }
 }

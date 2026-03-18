@@ -19,8 +19,11 @@ export class User {
   @Column({ type: 'varchar', length: 256, unique: true, nullable: false })
   email: string;
 
-  @Column({ type: 'varchar', length: 256, nullable: false })
-  password: string;
+  @Column({ type: 'varchar', length: 256, nullable: true })
+  password?: string;
+
+  @Column({ type: 'varchar', nullable: true })
+  googleId?: string;
 
   @OneToMany(() => Post, (post) => post.author, { cascade: true })
   posts: Post[];
