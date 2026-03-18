@@ -8,10 +8,10 @@ import { CreateUserDto } from '../users/dto/create-user.dto';
 import { UsersService } from '../users/users.service';
 import { SignInDto } from './dto/signin.dto';
 import { HashingProvider } from './providers/hashing.provider';
-// import { JwtService } from '@nestjs/jwt';
-// import jwtConfig from './config/jwt.config';
-// import type { ConfigType } from '@nestjs/config';
 import { GenerateTokenProvider } from './providers/generate-token.provider';
+import { RefreshTokenDto } from './dto/refresh-token.dto';
+import { RefreshTokensProvider } from './providers/refresh-tokens.provider';
+import { ActiveUserData } from './interfaces/active-user-data.interface';
 
 @Injectable()
 export class AuthService {
@@ -19,10 +19,8 @@ export class AuthService {
     @Inject(forwardRef(() => UsersService))
     private usersService: UsersService,
     private hashingProvider: HashingProvider,
-    // private jwtService: JwtService,
-    // @Inject(jwtConfig.KEY)
-    // private jwtConfiguration: ConfigType<typeof jwtConfig>,
     private generateTokenProvider: GenerateTokenProvider,
+    private refreshTokensProvider: RefreshTokensProvider,
   ) {}
 
   async signUp(createUserDto: CreateUserDto) {
@@ -43,5 +41,13 @@ export class AuthService {
     }
 
     return this.generateTokenProvider.generateTokens(user);
+  }
+
+  async refreshToken(refreshTokenDto: RefreshTokenDto) {
+    return await this.refreshTokensProvider.refreshTokens(refreshTokenDto);
+  }
+
+  async signOut(user: ActiveUserData) {
+    return await this.usersService.updateRefreshToken(user.sub, null);
   }
 }

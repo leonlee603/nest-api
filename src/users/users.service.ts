@@ -98,7 +98,7 @@ export class UsersService {
     return this.userRepository.save(user);
   }
 
-  async updateRefreshToken(id: string, refreshTokenHash: string) {
+  async updateRefreshToken(id: string, refreshTokenHash: string | null) {
     const user = await this.userRepository.findOne({ where: { id } });
     if (!user) {
       throw new NotFoundException('User not found');
