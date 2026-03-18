@@ -29,7 +29,8 @@ export class AccessTokenGuard implements CanActivate {
       const payload = await this.jwtService.verifyAsync<{
         sub: string;
         email: string;
-      }>(token, this.jwtConfiguration);
+      }>(token, this.jwtConfiguration); // Refresh token is signed with refresh secret, so it cannot be verified with access secret.
+      // save the user information to the request object, then can be extracted by the ActiveUser decorator and used in the controller.
       request[REQUEST_USER_KEY] = payload; // request.user = {sub: string, email: string}
       // console.log(payload);
     } catch {

@@ -4,14 +4,14 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-import { CreateUserDto } from 'src/users/dto/create-user.dto';
-import { UsersService } from 'src/users/users.service';
+import { CreateUserDto } from '../users/dto/create-user.dto';
+import { UsersService } from '../users/users.service';
 import { SignInDto } from './dto/signin.dto';
 import { HashingProvider } from './providers/hashing.provider';
-import { JwtService } from '@nestjs/jwt';
-import jwtConfig from './config/jwt.config';
-import type { ConfigType } from '@nestjs/config';
-import type { ActiveUserData } from './interfaces/active-user-data.interface';
+// import { JwtService } from '@nestjs/jwt';
+// import jwtConfig from './config/jwt.config';
+// import type { ConfigType } from '@nestjs/config';
+import { GenerateTokenProvider } from './providers/generate-token.provider';
 
 @Injectable()
 export class AuthService {
@@ -19,9 +19,10 @@ export class AuthService {
     @Inject(forwardRef(() => UsersService))
     private usersService: UsersService,
     private hashingProvider: HashingProvider,
-    private jwtService: JwtService,
-    @Inject(jwtConfig.KEY)
-    private jwtConfiguration: ConfigType<typeof jwtConfig>,
+    // private jwtService: JwtService,
+    // @Inject(jwtConfig.KEY)
+    // private jwtConfiguration: ConfigType<typeof jwtConfig>,
+    private generateTokenProvider: GenerateTokenProvider,
   ) {}
 
   async signUp(createUserDto: CreateUserDto) {
@@ -41,20 +42,6 @@ export class AuthService {
       throw new UnauthorizedException('Invalid email or password');
     }
 
-    const accessToken = await this.jwtService.signAsync(
-      {
-        sub: user.id,
-        email: user.email,
-      } as ActiveUserData,
-      {
-        secret: this.jwtConfiguration.secret,
-        audience: this.jwtConfiguration.audience,
-        issuer: this.jwtConfiguration.issuer,
-        expiresIn: this.jwtConfiguration.accessTokenTtl,
-      },
-    );
-    return {
-      accessToken,
-    };
+    return this.generateTokenProvider.generateTokens(user);
   }
 }

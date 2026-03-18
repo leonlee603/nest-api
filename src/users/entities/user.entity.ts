@@ -25,6 +25,9 @@ export class User {
   @OneToMany(() => Post, (post) => post.author, { cascade: true })
   posts: Post[];
 
+  @Column({ type: 'varchar', length: 256, nullable: true })
+  refreshTokenHash?: string;
+
   @CreateDateColumn()
   createdAt: Date;
 
