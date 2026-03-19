@@ -44,11 +44,12 @@ export class UsersService {
       password: hashedPassword,
     });
     // Save the user
-    const savedUser = await this.userRepository.save(user);
+    return await this.userRepository.save(user);
+    // Update: serializing the user without the password by interceptor.
     // Return the user without the password
-    const { password, ...userWithoutPassword } = savedUser;
-    console.log(password);
-    return userWithoutPassword;
+    // const { password, ...userWithoutPassword } = savedUser;
+    // console.log(password);
+    // return userWithoutPassword;
   }
 
   findAll() {

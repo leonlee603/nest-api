@@ -6,6 +6,8 @@ import {
   Patch,
   Param,
   Delete,
+  UseInterceptors,
+  ClassSerializerInterceptor,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -15,6 +17,7 @@ import { Auth } from '../auth/decorator/auth.decorator';
 import { AuthType } from '../auth/enums/auth-type.enum';
 
 @ApiTags('Users')
+@UseInterceptors(ClassSerializerInterceptor) // Serialize the user together with the @Exclude decorator in entity.
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
