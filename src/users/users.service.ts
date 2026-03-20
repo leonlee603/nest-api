@@ -10,7 +10,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { HashingProvider } from 'src/auth/providers/hashing.provider';
+import { HashingProvider } from '../auth/providers/hashing.provider';
 import { FindOneByGoogleIdProvider } from './providers/find-one-by-google-id.provider';
 import { CreateGoogleUserProvider } from './providers/create-google-user.provider';
 import { GoogleUser } from './interfaces/google-user.interface';
